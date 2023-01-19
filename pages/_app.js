@@ -15,8 +15,9 @@ import Layout from "../components/Layout";
 
 const publicPages = ["/sign-in/[[...index]]", "/sign-up/[[...index]]"];
 
+const clerkFrontendApi = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5kZXYk";
  function App({ Component, pageProps }) {
-  const clerkFrontendApi = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  ;
   const router = useRouter();
   NProgress.configure({ showSpinner: false });
 
