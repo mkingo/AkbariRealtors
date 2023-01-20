@@ -12,6 +12,7 @@ import {
 import { FcMenu, FcHome, FcAbout } from "react-icons/fc";
 import { BsSearch } from "react-icons/bs";
 import { FiKey } from "react-icons/fi";
+import { SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => (
   <Flex p="2" borderBottom="1px" borderColor="gray.100">
@@ -42,6 +43,7 @@ const Navbar = () => (
           <Link href="/search?purpose=for-rent" passHref>
             <MenuItem icon={<FiKey />}>Rent Property</MenuItem>
           </Link>
+          <SignOutButton />
         </MenuList>
       </Menu>
     </Box>

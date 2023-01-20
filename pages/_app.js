@@ -2,6 +2,8 @@ import Router, { useRouter } from "next/router";
 import Head from "next/head";
 import NProgress from "nprogress";
 import { ChakraProvider } from "@chakra-ui/react";
+import { dark } from '@clerk/themes';
+
 import {
   ClerkProvider,
   RedirectToSignIn,
@@ -10,12 +12,13 @@ import {
 } from "@clerk/nextjs";
 
 import Layout from "../components/Layout";
+import { blackAlpha } from "@clerk/themes/dist/clerk-js/src/ui/foundations";
 
 
 
 const publicPages = ["/sign-in/[[...index]]", "/sign-up/[[...index]]"];
 
-const clerkFrontendApi = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5kZXYk";
+const clerkPublishableKey = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5kZXYk";
  function App({ Component, pageProps }) {
   ;
   const router = useRouter();
@@ -31,8 +34,11 @@ const clerkFrontendApi = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5kZX
 
   return (
     <ClerkProvider
-      frontendApi= {clerkFrontendApi}
+      publishableKey= {clerkPublishableKey}
       navigate={(to) => router.push(to)}
+      appearance={{
+        baseTheme: blackAlpha
+      }}
     >
       {publicPages.includes(router.pathname) ? (
         <>
