@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-horizontal-scrolling-menu": "^3.2.3",
     "react-icons": "^4.7.1",
+    "use-stripe-subscription": "^1.0.6",
     "util": "^0.12.5"
   }
 }

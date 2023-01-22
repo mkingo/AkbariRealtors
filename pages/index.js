@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Flex, Box, Text, Button } from "@chakra-ui/react";
 import { baseUrl, fetchApi } from "../utils/fetchApi";
 import Property from "../components/Property";
+import { useSubscription } from "use-stripe-subscription";
+
 
 const Banner = ({
   purpose,
@@ -39,6 +41,10 @@ const Banner = ({
   </div>
 );
 export default function Home({ propertiesForSale, propertiesForRent }) {
+  const {isLoaded, products} = useSubscription();
+  if(!isLoaded) {
+    return null;
+  }
   return (
     <Box>
       <Banner

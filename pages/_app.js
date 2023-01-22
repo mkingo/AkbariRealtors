@@ -3,12 +3,14 @@ import Head from "next/head";
 import NProgress from "nprogress";
 import { ChakraProvider } from "@chakra-ui/react";
 import { dark } from '@clerk/themes';
+import { SubscriptionProvider } from "use-stripe-subscription";
 
 import {
   ClerkProvider,
   RedirectToSignIn,
   SignedIn,
   SignedOut,
+  UserButton,
 } from "@clerk/nextjs";
 
 import Layout from "../components/Layout";
@@ -33,33 +35,16 @@ const clerkPublishableKey = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5
   });
 
   return (
-    <ClerkProvider
-      publishableKey= {clerkPublishableKey}
-      navigate={(to) => router.push(to)}
-      appearance={{
-        baseTheme: blackAlpha
-      }}
-    >
-      {publicPages.includes(router.pathname) ? (
-        <>
-          <Head>
-            <link
-              rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
-              integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ=="
-              crossOrigin="anonymous"
-              referrerPolicy="no-referrer"
-            />
-          </Head>
-          <ChakraProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ChakraProvider>
-        </>
-      ) : (
-        <>
-          <SignedIn>
+    <SubscriptionProvider stripePublishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}>
+      <ClerkProvider
+        publishableKey={clerkPublishableKey}
+        navigate={(to) => router.push(to)}
+        appearance={{
+          baseTheme: blackAlpha,
+        }}
+      >
+        {publicPages.includes(router.pathname) ? (
+          <>
             <Head>
               <link
                 rel="stylesheet"
@@ -74,14 +59,34 @@ const clerkPublishableKey = "pk_test_c2FmZS1jaGlwbXVuay01MC5jbGVyay5hY2NvdW50cy5
                 <Component {...pageProps} />
               </Layout>
             </ChakraProvider>
-          </SignedIn>
+          </>
+        ) : (
+          <>
+            <SignedIn>
+              <UserButton defaultOpen="true" />
+              <Head>
+                <link
+                  rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
+                  integrity="sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ=="
+                  crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
+                />
+              </Head>
+              <ChakraProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ChakraProvider>
+            </SignedIn>
 
-          <SignedOut>
-            <RedirectToSignIn />
-          </SignedOut>
-        </>
-      )}
-    </ClerkProvider>
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+          </>
+        )}
+      </ClerkProvider>
+    </SubscriptionProvider>
   );
 }
 
